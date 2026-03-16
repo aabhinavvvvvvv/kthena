@@ -124,14 +124,14 @@ func setupControllerManagerE2ETest(t *testing.T) (context.Context, *clientset.Cl
 	return ctx, kthenaClient, kubeClient
 }
 
-func waitForWebhookReady(t *testing.T, kthenaClient *clientset.Clientset, namespace string) {
+func waitForWebhookReady(t *testing.T, ctx context.Context, kthenaClient *clientset.Clientset, namespace string) {
 	t.Helper()
 	t.Log("Waiting for webhook server to accept requests")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Minute)
+	waitCtx, cancel := context.WithTimeout(ctx, 1*time.Minute)
 	defer cancel()
 
-	err := wait.PollUntilContextCancel(ctx, 2*time.Second, true, func(ctx context.Context) (bool, error) {
+	err := wait.PollUntilContextCancel(waitCtx, 2*time.Second, true, func(ctx context.Context) (bool, error) {
 		probe := createValidModelBoosterForWebhookTest()
 		probe.Namespace = namespace
 		probe.Name = "webhook-ready-probe-" + utils.RandomString(5)
