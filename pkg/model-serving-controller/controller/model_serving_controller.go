@@ -1779,7 +1779,7 @@ func (c *ModelServingController) getPartition(ms *workloadv1alpha1.ModelServing)
 		replicas := int(*ms.Spec.Replicas)
 		partitionValue, err := intstr.GetScaledValueFromIntOrPercent(partition, replicas, true)
 		if err != nil {
-			klog.Errorf("failed to get partition value, err: %v", err)
+			klog.Errorf("ModelServing %s/%s has invalid partition %q; failed to get partition value: %v", ms.Namespace, ms.Name, partition.String(), err)
 			return 0
 		}
 		return partitionValue

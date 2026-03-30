@@ -154,7 +154,7 @@ func TestValidateRollingUpdateConfiguration(t *testing.T) {
 						Type:   intstr.String,
 						StrVal: "invalid",
 					},
-					"invalidate maxUnavailable",
+					"invalid maxUnavailable: invalid value for IntOrString: invalid type: string is not a percentage",
 				),
 			},
 		},
